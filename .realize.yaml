@@ -1,0 +1,23 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: /Users/severiano/go/src/makeschool-pr-api
+  path: /Users/severiano/go/src/makeschool-pr-api
+  commands:
+    fmt:
+      status: true
+    install:
+      status: false
+    run:
+      status: true
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
