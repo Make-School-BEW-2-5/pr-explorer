@@ -1,0 +1,1 @@
+This utility will use the GitHub GraphQL API v4 to find the pull requests of users who starred the repo. This will be used for competitions and to check how active users are in open source contributions.
