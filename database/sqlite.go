@@ -1,11 +1,12 @@
 package database
 
 import (
+	"strings"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 	"github.com/Make-School-BEW-2-5/pr-explorer/models"
-
 )
 
 func Init() (*gorm.DB, error) {
@@ -26,7 +27,7 @@ func SaveData(data models.Query) {
 	for stargazer := range data.Repository.Stargazers {
 		company := strings.ToLower(strings.Join(strings.Fields(Stargazer.Company), ""))
 		if company == "makeschool" {
-			user := &models.User{Login: stargazer.Login, PullRequests: []models.PullRequest}
+			user := &models.User{Login: stargazer.Login, PullRequests: make([]models.PullRequest, len(stargazer.Nodes.PullRequests.Nodes))}
 			for node := range stargazer.Nodes.PullRequests.Nodes {
 				pullRequest := &models.PullRequest{Title: node.Title, Date: node.createdAt}
 				db.NewRecord(pullRequest)
