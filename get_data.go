@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 
+	"github.com/Make-School-BEW-2-5/pr-explorer/models"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 )
@@ -25,24 +25,7 @@ func GetData() interface{} {
 
 	client := githubv4.NewClient(httpClient)
 
-	var query struct {
-		Repository struct {
-			Stargazers struct {
-				Nodes []struct {
-					Login        string
-					Company      string
-					PullRequests struct {
-						Nodes []struct {
-							CreatedAt time.Time
-							Title     string
-						}
-					} `graphql:"pullRequests(first: 100)"`
-				}
-			} `graphql:"stargazers(first: 100)"`
-		} `graphql:"repository(name: \"iruka\", owner: \"iruka-dev\")"`
-	}
-
-	err = client.Query(context.Background(), &query, nil)
+	err = client.Query(context.Background(), &models.Query, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
