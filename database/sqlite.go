@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
-	"github.com/Make-School-BEW-2-5/pr-explorer/models/"
+	"github.com/Make-School-BEW-2-5/pr-explorer/models"
 )
 
 func Init() (*gorm.DB, error) {
@@ -17,4 +17,23 @@ func Init() (*gorm.DB, error) {
 	db.AutoMigrate(&models.PullRequest, &models.User{})
 
 	return db, nil
+}
+
+func SaveData(interface{} data) {
+	db, err := Init()
+
+	for stargazer := range Data.Repository.Stargazers {
+		company := strings.ToLower(strings.Join(strings.Fields(Stargazer.Company), ""))
+		if company == "makeschool" {
+			user := &models.User{Login: stargazer.Login, PullRequests: []&models.PullRequest})
+			for node := range stargazer.Nodes.PullRequests.Nodes {
+				pullRequest := &models.PullRequest{Title: node.Title, Date: node.createdAt}
+				db.NewRecord(pullRequest)
+				db.Create(&pullRequest)
+				append(user.PullRequests, pullRequest)
+			}
+			db.NewRecord(user)
+			db.Create(&user)
+		}
+	}
 }

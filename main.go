@@ -1,8 +1,12 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+
+	"github.com/Make-School-BEW-2-5/pr-explorer/database"
 )
 
 func main() {
@@ -18,4 +22,9 @@ func main() {
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func getAndSave(c echo.Context) error {
+	database.SaveData(GetData)
+	return c.String(http.StatusOK, "Exited")
 }

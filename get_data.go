@@ -3,19 +3,17 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
 	"os"
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
 
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 )
 
 // GetData sends a GraphQL request to GitHub and returns a collection of users and their pull requests
-func GetData(c echo.Context) error {
+func GetData() interface{} {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
@@ -31,12 +29,12 @@ func GetData(c echo.Context) error {
 		Repository struct {
 			Stargazers struct {
 				Nodes []struct {
+					Login        string
+					Company      string
 					PullRequests struct {
 						Nodes []struct {
 							CreatedAt time.Time
-							Author    struct {
-								Login string
-							}
+							Title     string
 						}
 					} `graphql:"pullRequests(first: 100)"`
 				}
@@ -48,7 +46,7 @@ func GetData(c echo.Context) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return c.JSON(http.StatusOK, query.Repository.Stargazers.Nodes)
+	return query
 	// fmt.Println("	CreatedAt:", query.Viewer.CreatedAt)
 
 }
