@@ -1,5 +1,7 @@
 package main
 
+// All code original and written by Severiano Badajoz
+
 import (
 	"net/http"
 
