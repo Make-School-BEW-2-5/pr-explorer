@@ -7,7 +7,7 @@ import (
 type User struct {
 	gorm.Model
 
-	ID           uint
 	Login        string
+	Refer        uint
 	PullRequests []PullRequest
 }

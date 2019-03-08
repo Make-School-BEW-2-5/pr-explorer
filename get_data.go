@@ -7,13 +7,13 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/Make-School-BEW-2-5/pr-explorer/models"
+	"./models"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 )
 
 // GetData sends a GraphQL request to GitHub and returns a collection of users and their pull requests
-func GetData() interface{} {
+func GetData() models.Query {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
@@ -25,10 +25,13 @@ func GetData() interface{} {
 
 	client := githubv4.NewClient(httpClient)
 
-	err = client.Query(context.Background(), &models.Query, nil)
+	query := models.Query{}
+
+	err = client.Query(context.Background(), &query, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return query
 	// fmt.Println("	CreatedAt:", query.Viewer.CreatedAt)
 
